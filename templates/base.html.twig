@@ -1,62 +1,35 @@
-<!DOCTYPE html>
-<html lang="{{ app.request.locale }}">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>{% if app_title is defined and app_title is not empty %}
-            {{ app_title }}
-            |
-        {% endif %} {{ 'GPS tracks by track-hub.com'|trans }}</title>
-        {% if app_canonical_url is defined and app_canonical_url is not empty %}
-            <link rel="canonical" href="{{ absolute_url(app_canonical_url) }}" />
-        {% endif %}
-        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"
-              integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
-              crossorigin=""/>
-        <!-- Make sure you put this AFTER Leaflet's CSS -->
-        <script src="https://unpkg.com/leaflet@1.3.4/dist/leaflet.js"
-                integrity="sha512-nMMmRyTVoLYqjP9hrbed9S+FzjZHW5gY1TWCHA5ckwXZBadntCNs8kEqAWdrb9O7rxbCaA4lKTIWjDXZxflOcA=="
-                crossorigin=""></script>
-
-        <link rel="stylesheet" href="//unpkg.com/leaflet-gesture-handling/dist/leaflet-gesture-handling.min.css" type="text/css">
-        <script src="//unpkg.com/leaflet-gesture-handling"></script>
-
-        {{ encore_entry_link_tags('app') }}
-        {{ encore_entry_script_tags('app') }}
-
-        {% block stylesheets %}{% endblock %}
-    </head>
-    <body>
-        <nav class="container-fluid">
-            <div class="row">
-                <div class="col">
-                    <a href="{{ path('home') }}">{{ 'Home'|trans }}</a>
-                    |
-                    <a href="{{ path('gps-new') }}">{{ 'Add track'|trans }}</a>
-                </div>
-
-                <div class="col">
-                    {% if app.user %}
-                        {{ app.user.username }}
-                        |
-                        <a href="{{ path('app_logout') }}">{{ 'logout'|trans }}</a>
-                        |
-                        <a href="{{ path('app_user_download_personal_data') }}">
-                            Download personal data
-                        </a>
-                    {% else %}
-                        <a href="{{ path("hwi_oauth_connect") }}">{{ 'Log in'|trans }}</a>
-                    {% endif %}
-                </div>
-
-                <div class="col">
-                    <a href="{{ path('home', { _locale: 'en' }) }}">en</a>
-                    <a href="{{ path('home', { _locale: 'bg' }) }}">bg</a>
-                </div>
+{% extends "html.html.twig" %}
+{% block body %}
+    <nav class="container-fluid">
+        <div class="row">
+            <div class="col">
+                <a href="{{ path('home') }}">{{ 'Home'|trans }}</a>
+                |
+                <a href="{{ path('gps-new') }}">{{ 'Add track'|trans }}</a>
             </div>
-            <hr>
-        </nav>
-        {% block content %}{% endblock %}
+
+            <div class="col">
+                {% if app.user %}
+                    {{ app.user.username }}
+                    |
+                    <a href="{{ path('app_logout') }}">{{ 'logout'|trans }}</a>
+                    |
+                    <a href="{{ path('app_user_download_personal_data') }}">
+                        Download personal data
+                    </a>
+                {% else %}
+                    <a href="{{ path("hwi_oauth_connect") }}">{{ 'Log in'|trans }}</a>
+                {% endif %}
+            </div>
+
+            <div class="col">
+                <a href="{{ path('home', { _locale: 'en' }) }}">en</a>
+                <a href="{{ path('home', { _locale: 'bg' }) }}">bg</a>
+            </div>
+        </div>
+        <hr>
+    </nav>
+    {% block content %}{% endblock %}
     <hr>
 
     <footer>
@@ -73,35 +46,32 @@
         </nav>
     </footer>
 
-        <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.0/cookieconsent.min.css" />
-        <script src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.0/cookieconsent.min.js"></script>
-        <script>
-            window.addEventListener("load", function(){
-                window.cookieconsent.initialise({
-                    "palette": {
-                        "popup": {
-                            "background": "#252e39"
-                        },
-                        "button": {
-                            "background": "#14a7d0"
-                        }
+    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.0/cookieconsent.min.css" />
+    <script src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.0/cookieconsent.min.js"></script>
+    <script>
+        window.addEventListener("load", function(){
+            window.cookieconsent.initialise({
+                "palette": {
+                    "popup": {
+                        "background": "#252e39"
                     },
-                    "content": {
-                        "href": "{{ path('app_privacy_policy') }}"
+                    "button": {
+                        "background": "#14a7d0"
                     }
-                })});
-        </script>
+                },
+                "content": {
+                    "href": "{{ path('app_privacy_policy') }}"
+                }
+            })});
+    </script>
 
-        <!-- Global site tag (gtag.js) - Google Analytics -->
-        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-140320045-1"></script>
-        <script>
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-140320045-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
 
-            gtag('config', 'UA-140320045-1', { 'anonymize_ip': true });
-        </script>
-
-        {% block javascripts %}{% endblock %}
-    </body>
-</html>
+        gtag('config', 'UA-140320045-1', { 'anonymize_ip': true });
+    </script>
+{% endblock %}

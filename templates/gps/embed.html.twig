@@ -1,0 +1,144 @@
+{% extends "html.html.twig" %}
+
+{% block body %}
+    <style>
+        .leaflet-control-custom a.embed_link_on_map {
+            width: 100%;
+            font-weight: bolder;
+        }
+    </style>
+    <div style="height: 100vh; width: 100vw" id="map"></div>
+    <script>
+        var map = L.map(
+            'map',
+            {
+                gestureHandling: true,
+                center:[
+                    ({{ track.pointNorthEastLat }} + {{ track.pointSouthWestLat }}) / 2,
+                    ({{ track.pointSouthWestLng + track.pointNorthEastLng}}) / 2
+                ],
+                zoom: 12
+            }
+        );
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        {% set trackIndex = 0 %}
+
+        {% for version in track.versions %}
+        (function() {
+            var latlngs = [];
+
+            {% for point in version.points %}
+            latlngs.push([
+                {{ point.lat }},
+                {{ point.lng }}
+            ]);
+            {% endfor %}
+
+            var track = new AppTrack(
+                map,
+                [L.polyline(latlngs, {color: 'red'})]
+            );
+
+            {% for waypoint in version.waypoints %}
+            {
+                let waypoint = L.marker([{{ waypoint.lat }}, {{ waypoint.lng }}]);
+                waypoint.bindPopup({{ waypoint.name|json_encode|raw }});
+                track.addWaypoint(waypoint);
+            }
+            {% endfor %}
+
+            track.show();
+        })();
+
+        {% set trackIndex = trackIndex + 1 %}
+        {% endfor %}
+
+        // uphills
+        {% for version in track.getUphillVersions(true) %}
+        (function() {
+            var latlngs = [];
+
+            {% for point in version.points %}
+            latlngs.push([
+                {{ point.lat }},
+                {{ point.lng }}
+            ]);
+            {% endfor %}
+
+            var track = new AppTrack(
+                map,
+                [L.polyline(latlngs, {color: 'green'})]
+            );
+
+            {% for waypoint in version.waypoints %}
+            {
+                let waypoint = L.marker([{{ waypoint.lat }}, {{ waypoint.lng }}]);
+                waypoint.bindPopup({{ waypoint.name|json_encode|raw }});
+                track.addWaypoint(waypoint);
+            }
+            {% endfor %}
+
+            track.show();
+        })();
+
+        {% set trackIndex = trackIndex + 1 %}
+        {% endfor %}
+
+
+        // downhills
+        {% for version in track.downhillVersions(true) %}
+        (function() {
+            var latlngs = [];
+
+            {% for point in version.points %}
+            latlngs.push([
+                {{ point.lat }},
+                {{ point.lng }}
+            ]);
+            {% endfor %}
+
+            var track = new AppTrack(
+                map,
+                [L.polyline(latlngs, {color: 'orange'})]
+            );
+
+            {% for waypoint in version.waypoints %}
+            {
+                let waypoint = L.marker([{{ waypoint.lat }}, {{ waypoint.lng }}]);
+                waypoint.bindPopup({{ waypoint.name|json_encode|raw }});
+                track.addWaypoint(waypoint);
+            }
+            {% endfor %}
+
+            track.show();
+        })();
+
+        {% set trackIndex = trackIndex + 1 %}
+        {% endfor %}
+
+        viewOnWebsiteControl = L.Control.extend({
+            options: {
+                position: 'topleft'
+            },
+            onAdd: function (map) {
+                let container = L.DomUtil.create('div', 'leaflet-bar leaflet-control leaflet-control-custom');
+
+                container.innerHTML = "<a href='#dd' class='embed_link_on_map'>view on track-hub</a>";
+                container.stype
+                container.title="view on track-hub";
+
+                container.style.backgroundColor = 'white';
+                container.style.width = '115px';
+                container.style.height = '25px';
+                container.style['font-size'] = '12px';
+
+                return container;
+            },
+        });
+
+        map.addControl(new viewOnWebsiteControl());
+    </script>
+{% endblock %}

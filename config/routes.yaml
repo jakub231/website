@@ -20,6 +20,10 @@ gps-view:
   path: /{_locale}/gps/view/{id}
   controller: App\Controller\Track::view
 
+gps-embed:
+  path: /{_locale}/gps/embed/{id}
+  controller: App\Controller\Track::embed
+
 gps-list:
   path: /{_locale}/gps/list/{neLat}/{neLon}/{swLat}/{swLon}/{size}
   defaults:

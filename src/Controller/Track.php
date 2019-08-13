@@ -204,7 +204,12 @@ class Track extends AbstractController
         );
     }
 
-    public function view($id)
+    public function embed($id)
+    {
+        return $this->view($id, true);
+    }
+
+    public function view($id, $embed = false)
     {
         $repo = $this->getDoctrine()
             ->getManager()
@@ -306,7 +311,7 @@ class Track extends AbstractController
         }
 
         return $this->render(
-            'gps/view.html.twig',
+            $embed ? 'gps/embed.html.twig' : 'gps/view.html.twig',
             [
                 'track' => $gps,
                 'elevationData' => $dataSets,
