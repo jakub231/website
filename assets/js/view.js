@@ -23,8 +23,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    document.getElementById('ratingAlert').style.display = 'none';
-
     jQuery('#ratingModal').on('show.bs.modal', function (event) {
         const button = jQuery(event.relatedTarget);
 
@@ -33,7 +31,7 @@ document.addEventListener('DOMContentLoaded', function() {
         let path = button.data('path');
         path = path.replace("id", version);
 
-        jQuery('#sendRating').on('click', function() {
+        document.getElementById('sendRating').addEventListener('click', function() {
             const rating = document.getElementById('ratingSelect').value;
             let but = this;
 
@@ -78,17 +76,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 but.innerText = "Done";
             });
         });
-    });
-
-    jQuery('#ratingModal').on('hide.bs.modal', function () {
-        jQuery('#sendRating').off('click');
-        jQuery('#ratingAlert')
-            .removeClass('alert-success')
-            .removeClass('alert-danger')
-            .hide();
-        jQuery('#sendRating')
-            .prop('disabled', false)
-            .text('Rate');
     });
 });
 

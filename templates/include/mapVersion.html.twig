@@ -7,14 +7,9 @@
             <div class="stars-outer" id="rating-{{ version.id }}"
                 {% if version.votes > 0 %}
                     data-toggle="tooltip" data-html="true"
-                    {% set sum = 0 %}
-                    {% for r in version.ratings %}
-                        {% set sum = sum + r.rating %}
-                    {% endfor %}
-                    title="Rating: {{ sum / version.votes }}<br>Votes: {{ version.votes }}"
+                    title="Rating: {{ version.stars }}<br>Votes: {{ version.votes }}"
                 {% endif %}
                 >
-                <div class="stars-inner"></div>
             </div>
 
         <!--- Show rating button if user is logged-id --->
@@ -43,7 +38,6 @@
 <script>
     {% for version in versions %}
     {
-
         let latlngs = [];
 
         {% for point in version.points %}
@@ -78,9 +72,10 @@
             {% set sum = sum + r.rating %}
         {% endfor %}
 
-        const starRating = new StarRating("#rating-{{ version.id }}");
+        const starRating = new StarRating(
+            document.getElementById("rating-{{ version.id }}")
+        );
         starRating.setRating({{ sum }}, {{ version.votes }});
-
     }
     {% endfor %}
 </script>

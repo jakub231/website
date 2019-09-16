@@ -2,6 +2,11 @@ class StarRating {
     constructor(target, stars = 5) {
         this.target = target;
         this.stars = stars;
+
+        let starsColored = document.createElement('div');
+        starsColored.classList.add('stars-inner');
+        this.target.append(starsColored);
+        this.starsColored = starsColored;
     }
 
     setRating(rating, votes) {
@@ -9,14 +14,16 @@ class StarRating {
             return;
         }
 
+        console.log(rating);
+
         const percentage = ((rating / votes) / this.stars) * 100;
         const percentageRounded = Math.round(percentage / 10) * 10 + '%';
 
-        document.querySelector(this.target + ' .stars-inner').style.width = percentageRounded;
+        this.starsColored.style.width = percentageRounded;
     }
 
     setTooltip(text) {
-        document.querySelector(this.target).setAttribute('data-original-title', text);
+        this.target.setAttribute('data-original-title', text);
     }
 }
 

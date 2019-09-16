@@ -154,9 +154,22 @@ class Version
         $this->negativeElevation = $negativeElevation;
     }
 
+    /**
+     * @return ArrayCollection|VersionRating[]
+     */
     public function getRatings()
     {
         return $this->ratings;
+    }
+
+    public function getStars()
+    {
+        $sum = 0;
+        foreach ($this->getRatings() as $rating) {
+            $sum += $rating->getRating();
+        }
+
+        return $sum / $this->getRatings()->count();
     }
 
     /**
