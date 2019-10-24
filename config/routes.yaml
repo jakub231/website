@@ -114,3 +114,7 @@ place_image_thumbnail:
     year: '\d+'
     maxWidth: '\d+'
     maxHeight: '\d+'
+
+app_states:
+  path: /{_locale}/states
+  controller: App\Controller\States::index

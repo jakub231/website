@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+<div style="height: 50vh; min-height: 300px; width: 100%;" id="map"></div>
+
+<script>
+    console.log(window.geojson);
+
+    let map = L.map(
+        'map',
+        {
+            gestureHandling: true
+        }
+    ).setView([42.15, 24.75], 7);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    for (const key in window.geojson) {
+        L.geoJSON(window.geojson[key], {
+            style : {
+                "color": 'maroon',
+                "opacity": 0.5,
+            },
+        }).addTo(map);
+    }
+
+
+</script>
+{% endblock %}
