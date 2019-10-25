@@ -26,7 +26,22 @@ window.jsUpload = require('./components/fileUpload');
 window.bsCustomFileInput = require('bs-custom-file-input');
 
 
-window.geojson = {
-    Sofia: require('./map/geojson/Sofia.json'),
-    Sofia_Grad: require('./map/geojson/Sofia-City.json'),
-};
+
+function basename(str)
+{
+    /* Get file with suffix */
+    var base = new String(str).substring(str.lastIndexOf('/') + 1);
+
+    /* Get basename */
+    if(base.lastIndexOf(".") != -1)
+        base = base.substring(0, base.lastIndexOf("."));
+    return base;
+}
+
+window.geojson = {}
+
+const context = require.context('./', true, /\.(json)$/);
+context.keys().forEach((filename) => {
+    window.geojson[basename(filename)] = context(filename);
+});
+

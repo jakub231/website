@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block content %}
-<div style="height: 50vh; min-height: 300px; width: 100%;" id="map"></div>
+<div style="height: 80vh; min-height: 300px; width: 100%;" id="map"></div>
 
 <script>
     console.log(window.geojson);
@@ -17,13 +17,51 @@
     }).addTo(map);
 
     for (const key in window.geojson) {
-        L.geoJSON(window.geojson[key], {
+        window.geojson[key].cluster = L.markerClusterGroup();
+        map.addLayer(window.geojson[key].cluster);
+        window.geojson[key].cluster.refreshClusters();
+
+        window.geojson[key].layer = L.geoJSON(window.geojson[key], {
             style : {
-                "color": 'maroon',
-                "opacity": 0.5,
+                "color": "black",
+                "weight": 1,
+                'fillColor': 'white',
+                "opacity": 0.3,
             },
+            onEachFeature: function (feature, layer) {
+                layer.on('mouseover', function () {
+                    this.setStyle({
+                        'fillColor': '#FF0000'
+                    });
+                });
+                layer.on('mouseout', function () {
+                    this.setStyle({
+                        'fillColor': 'white'
+                    });
+                });
+                layer.on('click', function () {
+                    for (i = 0; i < 100; i++) {
+                        y = (Math.random() * (this.getBounds().getEast() - this.getBounds().getWest()) + this.getBounds().getWest()).toFixed(2);
+                        x = (Math.random() * (this.getBounds().getNorth() - this.getBounds().getSouth()) + this.getBounds().getSouth()).toFixed(2);
+
+                        L.marker([x, y]).addTo(window.geojson[key].cluster);
+                    }
+                    map.fitBounds(this.getBounds());
+                });
+            }
         }).addTo(map);
     }
+
+    map.on('zoomend', function() {
+            for (const key in window.geojson) {
+
+                const layerBounds = window.geojson[key].layer.getBounds();
+                if (map.getBounds().overlaps(layerBounds))
+                    continue;
+            }
+    });
+
+
 
 
 </script>
