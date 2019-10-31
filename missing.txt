@@ -1,0 +1,52 @@
+Missing country: Ascension Island
+Missing country: Antigua & Barbuda
+Missing country: Antarctica
+Missing country: Aruba
+Missing country: Åland Islands
+Missing country: St. Barthélemy
+Missing country: Caribbean Netherlands
+Missing country: Cocos (Keeling) Islands
+Missing country: Curaçao
+Missing country: Christmas Island
+Missing country: Diego Garcia
+
+Number of features should be exactly one: Dominica
+
+Missing country: Ceuta & Melilla
+Missing country: Western Sahara
+
+Number of features should be exactly one: Falkland Islands
+
+Missing country: French Guiana
+Missing country: Guadeloupe
+Missing country: South Georgia & South Sandwich Islands
+Missing country: Guam
+Missing country: Hong Kong SAR China
+Missing country: Canary Islands
+Missing country: St. Martin
+Missing country: Myanmar (Burma)
+Missing country: Macao SAR China
+Missing country: Northern Mariana Islands
+Missing country: Martinique
+Missing country: New Caledonia
+Missing country: Norfolk Island
+Missing country: French Polynesia
+Missing country: Philippines
+Missing country: Puerto Rico
+Missing country: Palestinian Territories
+Missing country: Réunion
+Missing country: Svalbard & Jan Mayen
+Missing country: São Tomé & Príncipe
+Missing country: Sint Maarten
+Missing country: Tristan da Cunha
+Missing country: Turks & Caicos Islands
+Missing country: French Southern Territories
+Missing country: Trinidad & Tobago
+Missing country: U.S. Outlying Islands
+Missing country: Vatican City
+Missing country: U.S. Virgin Islands
+Missing country: Wallis & Futuna
+Missing country: Pseudo-Accents
+Missing country: Pseudo-Bidi
+Missing country: Mayotte
+
