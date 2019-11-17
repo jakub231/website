@@ -22,27 +22,9 @@ class Place implements CreatedAtInterface
 
     public const TYPE_GENERIC = 0;
     public const TYPE_DRINKING_FOUNTAIN = 1;
-
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="UUID")
-     * @ORM\Column(name="id", type="guid")
-     */
-    private $id;
-
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Place\Image", mappedBy="place", cascade={"persist", "remove"}, orphanRemoval=true)
-     */
-    private $images;
-
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private $type = self::TYPE_GENERIC;
-
-    /**
-     * @ORM\Column(type="datetime")
-     */
+    public const TYPE_RESTAURANT = 2;
+    public const TYPE_HOTEL = 3;
+    public const TYPE_BIKE_SHOP=4;
     private $createdAt;
 
     public function __construct(float $lat, float $lng, User $sendBy)
